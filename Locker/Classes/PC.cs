@@ -40,7 +40,7 @@ namespace CleanPCClub
         {
             MySqlLib.MySqlData.MySqlExecute.MyResult result = new MySqlLib.MySqlData.MySqlExecute.MyResult();
             string query = "UPDATE `pc` SET " +
-                "Last_Time_Online = '" + DateTime.Now.ToString("hh:mm:ss") + "' " +
+                "Last_Time_Online = '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                 "WHERE MAC = '" + this.mac + "'";
             result = MySqlLib.MySqlData.MySqlExecute.SqlNoneQuery(query);
             if (result.HasError == false)
