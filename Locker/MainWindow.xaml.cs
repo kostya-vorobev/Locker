@@ -23,10 +23,13 @@ namespace Locker
     /// </summary>
     public partial class MainWindow : Window
     {
-        DateTime dateTime;
+        private DateTime dateTime;
         AuthMenu authMenu;
         PC pc;
         System.Windows.Threading.DispatcherTimer dispatcherTimer;
+
+        public DateTime DateTime { get => dateTime; set => dateTime = value; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,6 +39,8 @@ namespace Locker
             dockMenu.Children.Add(authMenu);
             pc = new PC();
 
+            TimerStart();
+
         }
 
         private void AnLock_B_Click(object sender, RoutedEventArgs e)
@@ -43,8 +48,7 @@ namespace Locker
             PC pc = new PC();
             if (pc.CheckStatus() == true)
             {
-                dateTime = Convert.ToDateTime(Order.SelectFinishTime(pc));
-                TimerStart(dateTime);
+                this.dateTime = Convert.ToDateTime(Order.SelectFinishTime(pc));
                 this.Hide();
             }else
             {
@@ -55,22 +59,22 @@ namespace Locker
 
             }
 
-        public void TimerStart(DateTime dateTime)
+        public void TimerStart()
         {
             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
             dispatcherTimer.Start();
-            this.dateTime = dateTime;
+
         }
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             pc.CheckStatus();
-            if (dateTime <= DateTime.Now || pc.StatusPC == 0)
+            pc.SetStatusOnline();
+            if (this.dateTime <= DateTime.Now || pc.StatusPC == 0)
             {
                 this.Visibility = Visibility.Visible;
                 pc.UpdateStatus(0);
-                dispatcherTimer.Stop();
             }
         }
         public void StartPozition()

@@ -36,6 +36,19 @@ namespace CleanPCClub
             }
             this.id = Convert.ToInt32(result.ResultData.Rows[0]["id"].ToString());
         }
+        public void SetStatusOnline()
+        {
+            MySqlLib.MySqlData.MySqlExecute.MyResult result = new MySqlLib.MySqlData.MySqlExecute.MyResult();
+            string query = "UPDATE `pc` SET " +
+                "Last_Time_Online = '" + DateTime.Now.ToString("hh:mm:ss") + "' " +
+                "WHERE MAC = '" + this.mac + "'";
+            result = MySqlLib.MySqlData.MySqlExecute.SqlNoneQuery(query);
+            if (result.HasError == false)
+            {
+                return;
+            }
+            else return;
+        }
         public PC()
         {
             this.mac = MAC();

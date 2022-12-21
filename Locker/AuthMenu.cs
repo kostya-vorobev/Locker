@@ -50,8 +50,8 @@ namespace Locker
                 Order order = new Order(pc.Id, client.Id, 1000, DateTime.Now, dateTime, 1);
                 order.Insert();
                 pc.UpdateStatus(1);
-                mainWindowControl.TimerStart(dateTime);
                 mainWindowControl.Visibility = Visibility.Collapsed;
+                mainWindowControl.DateTime = dateTime;
 
 
             };
